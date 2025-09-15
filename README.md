@@ -1,72 +1,108 @@
-# AutoGen Agents with Function Calling using Groq API
+<div align="center">
+  <h1>
+    Agentes de IA com Autogen e Function Calling
+  </h1>
+</div>
 
-Este projeto é um laboratório prático que explora a criação de agentes de IA utilizando a biblioteca **Microsoft Autogen**. O objetivo é demonstrar como capacitar um agente com "ferramentas" (tools), que são funções Python customizadas que ele pode chamar para executar tarefas específicas que vão além da simples geração de texto.
+<p align="center">
+  <img alt="Linguagem Principal" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="Licença" src="https://img.shields.io/github/license/SEU-USUARIO/SEU-REPOSITORIO?style=for-the-badge&color=blue">
+</p>
 
-A aplicação utiliza a **Groq API** para inferência de alta velocidade com o modelo de linguagem Llama 3, permitindo interações fluidas e em tempo real com o agente.
+<p align="center">
+  Um laboratório prático que explora a criação de agentes de IA com o framework Microsoft Autogen, utilizando Function Calling para estender suas capacidades com ferramentas Python customizadas.
+</p>
 
-## 🎯 O Desafio: De Conversor de Moedas a Assistente Residencial
+<p align="center">
+  <a href="#-objetivos-de-aprendizagem">Objetivos</a> •
+  <a href="#-tecnologias-utilizadas">Tecnologias</a> •
+  <a href="#-como-rodar-o-projeto">Como Rodar</a> •
+  <a href="#-demonstração">Demonstração</a> •
+  <a href="#-licença">Licença</a>
+</p>
 
-O laboratório consiste em adaptar um agente inicialmente projetado para uma tarefa e transformá-lo para resolver um problema completamente diferente.
+---
 
-1.  **Estado Inicial**: Um agente (`currency_bot`) capaz de converter valores entre moedas.
-2.  **Modificação**: O mesmo agente é reconfigurado para se tornar um assistente de automação residencial.
-3.  **Resultado Final**: O agente, ao receber um comando em linguagem natural como "Está calor aqui na sala", utiliza sua nova ferramenta para ligar o ar condicionado.
+### 🎯 Objetivos de Aprendizagem
 
-![Resultado do Agente de Automação Residencial](https://i.imgur.com/5D6fBqY.png)
+-   Entender o paradigma de **sistemas multi-agente** com Microsoft Autogen.
+-   Implementar **"Function Calling" (Uso de Ferramentas)** para dar aos agentes capacidades além da linguagem.
+-   Integrar um LLM de alta velocidade via **Groq API** (com o modelo Llama 3).
+-   Diferenciar os papéis do `AssistantAgent` (o pensador) e do `UserProxyAgent` (o executor).
 
-## 🧠 Conceitos Fundamentais
+---
 
-### 1. Microsoft Autogen
-É um framework de código aberto para simplificar a orquestração, otimização e automação de fluxos de trabalho com múltiplos agentes de IA. Ele permite que agentes conversem entre si e com humanos para resolver tarefas complexas. Neste projeto, utilizamos dois tipos principais de agentes:
--   `AssistantAgent`: O agente "cérebro", que utiliza o LLM (Llama 3 via Groq) para entender, raciocinar e decidir qual ferramenta usar.
--   `UserProxyAgent`: Um proxy que atua em nome do usuário. Ele é responsável por executar o código ou as funções que o `AssistantAgent` sugere.
+### 🛠️ Tecnologias Utilizadas
 
-### 2. Function Calling (Uso de Ferramentas)
-Esta é a capacidade de um LLM de, em vez de apenas responder com texto, indicar que precisa executar uma função predefinida para obter a informação necessária. O fluxo é o seguinte:
-1.  O usuário envia uma mensagem (ex: "Ligue o ar da sala").
-2.  O `AssistantAgent`, com base em sua configuração e nas descrições das ferramentas disponíveis, determina que a função `turn_on_airconditioner` deve ser chamada.
-3.  Ele envia uma "sugestão de chamada de ferramenta" com os argumentos corretos (ex: `ambiente="Sala de estar"`, `estado=True`).
-4.  O `UserProxyAgent` recebe essa sugestão, executa a função Python de fato e retorna o resultado.
-5.  O `AssistantAgent` recebe o resultado da função e formula a resposta final para o usuário.
+Este projeto combina um framework de agentes de IA com uma API de inferência de LLM de alta performance.
 
-### 3. Groq API
-Groq oferece uma plataforma de inferência de LLMs com latência extremamente baixa. Usá-la torna a resposta do agente quase instantânea, o que é ideal para aplicações interativas.
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter"></a>
+  <a href="#"><img src="https://img.shields.io/badge/AutoGen-A724B5?style=for-the-badge&logo=microsoft&logoColor=white" alt="AutoGen"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Groq-00C592?style=for-the-badge&logo=groq&logoColor=white" alt="Groq"></a>
+</p>
 
-## 🛠️ Estrutura do Código
+---
 
--   **Configuração do LLM**: O `config_list` é configurado para usar um modelo da Groq (ex: `llama3-8b-8192`) com a chave de API fornecida.
--   **Definição dos Agentes**: Criação das instâncias do `AssistantAgent` e do `UserProxyAgent`, definindo seus comportamentos e personas através do `system_message`.
--   **Criação da Ferramenta**: Uma função Python comum é definida (ex: `identify_language` ou `turn_on_airconditioner`).
--   **Registro da Ferramenta**: A função é "registrada" para os agentes usando decoradores:
-    -   `@id_programming_bot.register_for_llm()`: Informa ao assistente que a ferramenta existe e para que serve (através da `description`).
-    -   `@user_proxy.register_for_execution()`: Habilita o proxy a executar essa função quando solicitado.
--   **Iniciação da Conversa**: `user_proxy.initiate_chat()` dá início à interação, passando a mensagem inicial do usuário para o agente.
+### ⚙️ Como Rodar o Projeto
 
-## 🚀 Como Executar o Projeto
+O laboratório foi projetado para ser executado no **Google Colab**.
 
-Para rodar este laboratório, siga os passos abaixo. O ambiente ideal é o **Google Colab**.
+#### 1. Pré-requisitos
+-   Uma **API Key da Groq**. Você pode obter uma gratuitamente no (https://console.groq.com/login).
 
-### Passo 1: Obter uma API Key da Groq
-1.  [cite_start]Crie uma conta gratuita na [GroqCloud](https://console.groq.com/login). [cite: 193, 194]
-2.  [cite_start]No painel, vá para a seção de API Keys e crie uma nova chave. [cite: 205] Copie-a para usar no próximo passo.
+#### 2. Configure a API Key
+-   Abra o notebook `03_function_calling_agent.ipynb` no Google Colab.
+-   No menu esquerdo, vá em **Secrets (🔑)** e crie um novo secret chamado `groq`.
+-   Cole sua API Key da Groq no campo de valor. [cite: 243, 261] [cite_start]A utilização do `userdata.get('groq')` é uma forma mais segura de gerenciar chaves.
 
-### Passo 2: Configurar o Google Colab
-1.  [cite_start]Abra o notebook `03_function_calling_agent.ipynb` no Google Colab. [cite: 238]
-2.  [cite_start]No menu lateral esquerdo, clique no ícone de chave (🔑 **Secrets**). [cite: 243]
-3.  [cite_start]Crie um novo "secret" com o nome `groq`. [cite: 260]
-4.  [cite_start]No campo "Valor", cole a sua API Key da Groq. [cite: 243, 261] Habilite o acesso do notebook a este secret.
-
-[cite_start]Esta prática (`userdata.get('groq')`) é muito mais segura do que colar a chave diretamente no código. [cite: 282, 284]
-
-### Passo 3: Instalar as Dependências
-Execute a primeira célula do notebook para instalar as bibliotecas necessárias:
+#### 3. Instale as Dependências
+Execute a primeira célula do notebook para instalar as bibliotecas:
 ```bash
-!pip install autogen groq
+pip install autogen groq
 ```
 
-### Passo 4: Executar o Notebook
-Execute as células restantes em sequência para ver o agente em ação. [cite_start]Você pode modificar o `system_message`, as funções e a mensagem do usuário para experimentar diferentes cenários! [cite: 342, 348, 359]
+#### 4. Execute o Laboratório
+Execute as células em sequência para ver os agentes em ação. Sinta-se à vontade para modificar o `system_message`, as funções e as mensagens do usuário para testar outros cenários.
 
-## Licença
+---
+
+### 🎬 Demonstração
+
+O laboratório consiste em adaptar um agente. Inicialmente, ele é um `currency_bot` para conversão de moedas. Depois, seu `system_message` e suas ferramentas são alterados para que ele se torne um assistente de automação residencial.
+
+**Comando do Usuário:** `E ai, truta! Está calor, hein? [cite_start]Estou na sala`
+
+**Resultado:** O agente entende a intenção, chama a ferramenta correta (`turn_on_airconditioner`) com os parâmetros certos (`ambiente="Sala de estar"`, `estado=True`) e confirma a execução da tarefa.
+
+<summary><strong>💡 Análise Técnica do Fluxo (Write-up)</strong></summary>
+<br>
+
+O conceito de **Function Calling** no Autogen segue um fluxo de trabalho claro:
+
+1.  **Definição da Ferramenta**: Uma função Python comum é criada (ex: `turn_on_airconditioner`).
+
+2.  **Registro da Ferramenta**: A função é registrada usando dois decoradores:
+    -   `@agent.register_for_llm()`: Informa ao `AssistantAgent` que a ferramenta existe, o que ela faz (através da `description`) e quais parâmetros ela aceita.
+    -   `@user_proxy.register_for_execution()`: Autoriza o `UserProxyAgent` a executar essa função quando o assistente solicitar.
+
+3.  **Fluxo de Execução**:
+    -   O usuário envia uma mensagem através de `user_proxy.initiate_chat()`. 
+    -   O `AssistantAgent` (com o LLM) analisa a mensagem e a descrição das ferramentas. Ele conclui que deve chamar uma função.
+    -   Ele não executa a função, mas envia uma "sugestão de chamada de ferramenta" ao proxy, com os argumentos preenchidos (ex: `{"ambiente": "Sala de estar", "estado":true}`).
+    -   O `UserProxyAgent` recebe a sugestão, executa a função Python localmente (`EXECUTING FUNCTION...`) e retorna o resultado (ex: "Ar condicionado do Sala de estar foi ligado").
+    -   O `AssistantAgent` recebe este resultado e formula uma resposta final em linguagem natural para o usuário (ex: "Ahhh, que um ar fresco começou a circular!").
+
+
+---
+
+### 📝 Licença
 
 Este projeto está sob a licença MIT.
+
+<hr>
+
+<p align="center">
+  Desenvolvido por <b>Marcos Vinícius Rocha Silva</b>
+</p>
