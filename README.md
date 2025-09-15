@@ -6,7 +6,7 @@
 
 <p align="center">
   <img alt="Linguagem Principal" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
-  <img alt="Licença" src="https://img.shields.io/github/license/SEU-USUARIO/SEU-REPOSITORIO?style=for-the-badge&color=blue">
+  <img alt="Licença" src="https://img.shields.io/github/license/vrsmarcos26/Automatic-Tesk-IA?style=for-the-badge&color=blue">
 </p>
 
 <p align="center">
